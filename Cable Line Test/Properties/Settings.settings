@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Cable_Line_Test.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CLTConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\CLT.accdb;Jet OLEDB:Database Password=mypassword; OLE DB Services=-1&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\CLT.accdb;Jet OLEDB:Database Password=mypassword; OLE DB Services=-1</Value>
+    </Setting>
+    <Setting Name="Key1" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IY2FTVHMX8X55ILbCJRupTXfgThRgiCsCaRcCCD4buqU142UEWNXGONTY9CUFcSV</Value>
+    </Setting>
+    <Setting Name="Key2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">q85pqGTz37IA35IrSUFN+jSRWbY46BFv+z07ywqpMU3oTnM4CymCLbQq1UUT6TDH</Value>
+    </Setting>
+    <Setting Name="Key3" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2TCu5fttlOMQSLiX6gmgMomYGm1M8HbFcvmtVTooTcjyajoCPYwWAbWpRiLi4J3wyrn2ED8rP0B5y5Q97dhE5y74jA2dqLzz/q8ZDYSVuCa4jGlJk9tmrFLtL601qqlI</Value>
+    </Setting>
+    <Setting Name="Key4" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TCMlS7FUFXgHC9Y0sC1eq9dvYDHfIeKnqALXjkp3M/9UrXLp1drTXGpORg4IgeupEAq6Qls5dHDNTQbsL4v0wceqtZQGTW+/m7YbfnWJDYo=</Value>
+    </Setting>
+    <Setting Name="Key5" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ODnPhDEk9djnNUE+fW0HJUCh/4itq9nMFPS7XHLxX8E=</Value>
+    </Setting>
+    <Setting Name="Key6" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mwwth+kYI4erQ/abIfZWYr/a8sL0kKs1YF8YQ5IAdQp+9LRgqlpX5RGRDcbS8V2m</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

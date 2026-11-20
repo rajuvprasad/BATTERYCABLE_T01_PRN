@@ -1,0 +1,100 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|d:\\pr\\installations\\battery cable new\\infac - t01\\battery cable eol\\cable line test\\testcenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|solutionrelative:cable line test\\testcenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|d:\\pr\\installations\\battery cable new\\infac - t01\\battery cable eol\\cable line test\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|solutionrelative:cable line test\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|d:\\pr\\installations\\battery cable new\\infac - t01\\battery cable eol\\cable line test\\clt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|solutionrelative:cable line test\\clt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|d:\\pr\\installations\\battery cable new\\infac - t01\\battery cable eol\\cable line test\\workdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|solutionrelative:cable line test\\workdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|d:\\pr\\installations\\battery cable new\\infac - t01\\battery cable eol\\cable line test\\admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B45AB895-0628-4EDA-A539-4B3910D49E59}|Cable Line Test\\Battery Cable EOL (V2).csproj|solutionrelative:cable line test\\admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Settings.cs [Design]",
+              "DocumentMoniker": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\Settings.cs",
+              "RelativeDocumentMoniker": "Cable Line Test\\Settings.cs",
+              "ToolTip": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\Settings.cs [Design]",
+              "RelativeToolTip": "Cable Line Test\\Settings.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-18T06:41:42.62Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WorkData.cs [Design]",
+              "DocumentMoniker": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\WorkData.cs",
+              "RelativeDocumentMoniker": "Cable Line Test\\WorkData.cs",
+              "ToolTip": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\WorkData.cs [Design]",
+              "RelativeToolTip": "Cable Line Test\\WorkData.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-18T06:41:32.253Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CLT.cs [Design]",
+              "DocumentMoniker": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\CLT.cs",
+              "RelativeDocumentMoniker": "Cable Line Test\\CLT.cs",
+              "ToolTip": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\CLT.cs [Design]",
+              "RelativeToolTip": "Cable Line Test\\CLT.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-18T06:41:22.225Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Admin.cs [Design]",
+              "DocumentMoniker": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\Admin.cs",
+              "RelativeDocumentMoniker": "Cable Line Test\\Admin.cs",
+              "ToolTip": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\Admin.cs [Design]",
+              "RelativeToolTip": "Cable Line Test\\Admin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-18T06:41:19.251Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TestCenter.cs [Design]",
+              "DocumentMoniker": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\TestCenter.cs",
+              "RelativeDocumentMoniker": "Cable Line Test\\TestCenter.cs",
+              "ToolTip": "D:\\PR\\Installations\\Battery Cable New\\INFAC - T01\\Battery Cable EOL\\Cable Line Test\\TestCenter.cs [Design]",
+              "RelativeToolTip": "Cable Line Test\\TestCenter.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-18T06:36:36.282Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\CLT.accdb
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\Cable Line Test.exe.config
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\Cable Line Test.exe.manifest
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\Cable Line Test.application
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\Cable Line Test.exe
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\bin\Debug\Cable Line Test.pdb
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.csprojResolveAssemblyReference.cache
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable_Line_Test.BCC.resources
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable_Line_Test.Properties.Resources.resources
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable_Line_Test.Settings.resources
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.csproj.GenerateResource.Cache
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.csproj.CoreCompileInputs.cache
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.exe.manifest
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.application
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.exe
+D:\PR\C# Projects\Cable Line Test\Cable Line Test\obj\Debug\Cable Line Test.pdb
