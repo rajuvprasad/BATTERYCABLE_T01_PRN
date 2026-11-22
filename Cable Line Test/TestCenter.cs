@@ -371,21 +371,21 @@ namespace Cable_Line_Test
             }
         }
 
-        // Reads today's last PASS lot number for this machine from PART_RUNNING_SERIAL (0 if none yet today)
+        // Reads today's last PASS lot number for this part from PART_RUNNING_SERIAL (0 if none yet today)
         private int getLotNumber(OleDbConnection dbCon)
         {
             using (var cmd = dbCon.CreateCommand())
             {
-                cmd.CommandText = "SELECT RUNNING_LOT_NUMBER FROM PART_RUNNING_SERIAL WHERE MACHINE_ID = @macId AND TEST_DAY_DATE = @testDay";
-                cmd.Parameters.AddWithValue("macId", machineID);
+                cmd.CommandText = "SELECT RUNNING_LOT_NUMBER FROM PART_RUNNING_SERIAL WHERE PART_NUMBER = @partnumber AND TEST_DAY_DATE = @testDay";
+                cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
                 cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
                 object result = cmd.ExecuteScalar();
                 return int.TryParse(result?.ToString(), out int lastLotNumber) ? lastLotNumber : 0;
             }
         }
 
-        // Lot number resets daily and runs per machine. Failed cables also consume a lot number in TESTING_DATA
-        // (the running serial is only advanced on PASS), so skip any traceability code that is already used.
+        // Lot number resets daily and runs per part. Failed cables also consume a lot number in TESTING_DATA
+        // (the running serial is only advanced on PASS), so skip any traceability code already used for this part today.
         private void generate_LotNumber()
         {
             testDateTime = GetDateWithoutMilliseconds(DateTime.Now);
@@ -403,7 +403,9 @@ namespace Cable_Line_Test
 
                     using (var cmd = dbCon.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT COUNT(*) FROM TESTING_DATA WHERE TRACEABILITY_CODE = @traceabilityCode";
+                        cmd.CommandText = "SELECT COUNT(*) FROM TESTING_DATA WHERE PARTDETAILS_PART_NUMBER = @partnumber AND RECORD_DATE = @recordDate AND TRACEABILITY_CODE = @traceabilityCode";
+                        cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
+                        cmd.Parameters.AddWithValue("recordDate", GetDateAlone(testDateTime));
                         cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
                         traceabilityCodeExists = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
@@ -437,20 +439,19 @@ namespace Cable_Line_Test
                             cmd.ExecuteNonQuery();
                         }
 
-                        // Advance the running serial for this machine/day (only if PASS)
+                        // Advance the running serial for this part/day (only if PASS)
                         if (isPass)
                         {
                             int rowsUpdated;
                             using (var cmd = dbCon.CreateCommand())
                             {
                                 cmd.Transaction = tx;
-                                cmd.CommandText = " UPDATE PART_RUNNING_SERIAL SET TEST_DAY_LAST_DATE_TIME = @lastDateTime, PART_NUMBER = @partnumber, TRACEABILITY_CODE = @traceabilityCode, RUNNING_LOT_NUMBER = @lotNumber " +
-                                    " WHERE MACHINE_ID = @macId AND TEST_DAY_DATE = @testDay ";
+                                cmd.CommandText = " UPDATE PART_RUNNING_SERIAL SET TEST_DAY_LAST_DATE_TIME = @lastDateTime, TRACEABILITY_CODE = @traceabilityCode, RUNNING_LOT_NUMBER = @lotNumber " +
+                                    " WHERE PART_NUMBER = @partnumber AND TEST_DAY_DATE = @testDay ";
                                 cmd.Parameters.AddWithValue("lastDateTime", testDateTime);
-                                cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
                                 cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
                                 cmd.Parameters.AddWithValue("lotNumber", lotNo);
-                                cmd.Parameters.AddWithValue("macId", machineID);
+                                cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
                                 cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
                                 rowsUpdated = cmd.ExecuteNonQuery();
                             }
@@ -460,12 +461,11 @@ namespace Cable_Line_Test
                                 using (var cmd = dbCon.CreateCommand())
                                 {
                                     cmd.Transaction = tx;
-                                    cmd.CommandText = " INSERT INTO PART_RUNNING_SERIAL (MACHINE_ID, TEST_DAY_DATE, TEST_DAY_LAST_DATE_TIME, PART_NUMBER, TRACEABILITY_CODE, RUNNING_LOT_NUMBER) " +
-                                        " VALUES (@macId, @testDay, @lastDateTime, @partnumber, @traceabilityCode, @lotNumber) ";
-                                    cmd.Parameters.AddWithValue("macId", machineID);
+                                    cmd.CommandText = " INSERT INTO PART_RUNNING_SERIAL (PART_NUMBER, TEST_DAY_DATE, TEST_DAY_LAST_DATE_TIME, TRACEABILITY_CODE, RUNNING_LOT_NUMBER) " +
+                                        " VALUES (@partnumber, @testDay, @lastDateTime, @traceabilityCode, @lotNumber) ";
+                                    cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
                                     cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
                                     cmd.Parameters.AddWithValue("lastDateTime", testDateTime);
-                                    cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
                                     cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
                                     cmd.Parameters.AddWithValue("lotNumber", lotNo);
                                     cmd.ExecuteNonQuery();

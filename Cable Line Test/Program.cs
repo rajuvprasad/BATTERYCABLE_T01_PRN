@@ -27,6 +27,17 @@ namespace Cable_Line_Test
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
+                try
+                {
+                    Common.DatabaseSchema.Upgrade();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Could not update the database: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 Application.Run(new BCC());
             }
         }

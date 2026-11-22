@@ -111,6 +111,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\DatabaseSchema.cs" />
     <Compile Include="Common\ControlMover.cs" />
     <Compile Include="Common\RawPrinterHelper.cs" />
     <Compile Include="Common\Utils.cs" />
