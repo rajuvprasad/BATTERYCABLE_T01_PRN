@@ -34,6 +34,8 @@ namespace Cable_Line_Test
         private UInt16[] powers;
         private string lotNo = string.Empty;
         private string traceabilityCode = string.Empty;
+        // Single timestamp per test so the traceability code date, RECORD_DATE and the running serial day always agree (even across midnight)
+        private DateTime testDateTime;
         private System.Media.SoundPlayer player;
         private bool breakLoop = false;
         private bool firstTime;
@@ -336,12 +338,8 @@ namespace Cable_Line_Test
                 }
                 else
                 {
-                    int j = Convert.ToInt32(lotNo);
-                    j += 1;
-                    lotNo = j.ToString("D7");
-                    traceabilityCode = DateTime.Now.ToString("yyMMdd") + "I" + machineID.Substring(2) + "G1A" + lotNo;
+                    generate_LotNumber();
 
-                    //lotNo = machineID + DateTime.Now.ToString("_yyMMdd_HHmmss");
                     if (passCounter == bitsToCheck.Count)
                     {
                         lbl_Status_Text.Text = "PASS";
@@ -373,22 +371,116 @@ namespace Cable_Line_Test
             }
         }
 
-        private void save_Testing_Data()
+        // Reads today's last PASS lot number for this machine from PART_RUNNING_SERIAL (0 if none yet today)
+        private int getLotNumber(OleDbConnection dbCon)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(Properties.Settings.Default.CLTConnectionString))
             using (var cmd = dbCon.CreateCommand())
             {
-                cmd.CommandText = " INSERT INTO TESTING_DATA (MACHINE_ID, LOT_NUMBER, TRACEABILITY_CODE, RECORD_DATE, [DATETIME], OVERALL_STATUS, PARTDETAILS_PART_NUMBER) " +
-                    " VALUES (@macId, @lotNumber, @traceabilityCode, @recordDate, @date, @status, @partnumber) ";
+                cmd.CommandText = "SELECT RUNNING_LOT_NUMBER FROM PART_RUNNING_SERIAL WHERE MACHINE_ID = @macId AND TEST_DAY_DATE = @testDay";
                 cmd.Parameters.AddWithValue("macId", machineID);
-                cmd.Parameters.AddWithValue("lotNumber", lotNo);
-                cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
-                cmd.Parameters.AddWithValue("recordDate", GetDateAlone(DateTime.Now));
-                cmd.Parameters.AddWithValue("date", GetDateWithoutMilliseconds(DateTime.Now));
-                cmd.Parameters.AddWithValue("status", (lbl_Status_Text.Text.Equals("PASS")) ? "OK" : "NG");
-                cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
+                cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
+                object result = cmd.ExecuteScalar();
+                return int.TryParse(result?.ToString(), out int lastLotNumber) ? lastLotNumber : 0;
+            }
+        }
+
+        // Lot number resets daily and runs per machine. Failed cables also consume a lot number in TESTING_DATA
+        // (the running serial is only advanced on PASS), so skip any traceability code that is already used.
+        private void generate_LotNumber()
+        {
+            testDateTime = GetDateWithoutMilliseconds(DateTime.Now);
+
+            using (OleDbConnection dbCon = new OleDbConnection(Properties.Settings.Default.CLTConnectionString))
+            {
                 dbCon.Open();
-                cmd.ExecuteNonQuery();
+                int lotNumber = getLotNumber(dbCon);
+                bool traceabilityCodeExists;
+                do
+                {
+                    lotNumber++;
+                    lotNo = lotNumber.ToString("D7");
+                    traceabilityCode = testDateTime.ToString("yyMMdd") + "I" + machineID.Substring(2) + "G1A" + lotNo;
+
+                    using (var cmd = dbCon.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT COUNT(*) FROM TESTING_DATA WHERE TRACEABILITY_CODE = @traceabilityCode";
+                        cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
+                        traceabilityCodeExists = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                    }
+                } while (traceabilityCodeExists);
+            }
+        }
+
+        private void save_Testing_Data()
+        {
+            bool isPass = lbl_Status_Text.Text.Equals("PASS");
+
+            using (OleDbConnection dbCon = new OleDbConnection(Properties.Settings.Default.CLTConnectionString))
+            {
+                dbCon.Open();
+                using (OleDbTransaction tx = dbCon.BeginTransaction())
+                {
+                    try
+                    {
+                        using (var cmd = dbCon.CreateCommand())
+                        {
+                            cmd.Transaction = tx;
+                            cmd.CommandText = " INSERT INTO TESTING_DATA (MACHINE_ID, LOT_NUMBER, TRACEABILITY_CODE, RECORD_DATE, [DATETIME], OVERALL_STATUS, PARTDETAILS_PART_NUMBER) " +
+                                " VALUES (@macId, @lotNumber, @traceabilityCode, @recordDate, @date, @status, @partnumber) ";
+                            cmd.Parameters.AddWithValue("macId", machineID);
+                            cmd.Parameters.AddWithValue("lotNumber", lotNo);
+                            cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
+                            cmd.Parameters.AddWithValue("recordDate", GetDateAlone(testDateTime));
+                            cmd.Parameters.AddWithValue("date", testDateTime);
+                            cmd.Parameters.AddWithValue("status", isPass ? "OK" : "NG");
+                            cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Advance the running serial for this machine/day (only if PASS)
+                        if (isPass)
+                        {
+                            int rowsUpdated;
+                            using (var cmd = dbCon.CreateCommand())
+                            {
+                                cmd.Transaction = tx;
+                                cmd.CommandText = " UPDATE PART_RUNNING_SERIAL SET TEST_DAY_LAST_DATE_TIME = @lastDateTime, PART_NUMBER = @partnumber, TRACEABILITY_CODE = @traceabilityCode, RUNNING_LOT_NUMBER = @lotNumber " +
+                                    " WHERE MACHINE_ID = @macId AND TEST_DAY_DATE = @testDay ";
+                                cmd.Parameters.AddWithValue("lastDateTime", testDateTime);
+                                cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
+                                cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
+                                cmd.Parameters.AddWithValue("lotNumber", lotNo);
+                                cmd.Parameters.AddWithValue("macId", machineID);
+                                cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
+                                rowsUpdated = cmd.ExecuteNonQuery();
+                            }
+
+                            if (rowsUpdated == 0)
+                            {
+                                using (var cmd = dbCon.CreateCommand())
+                                {
+                                    cmd.Transaction = tx;
+                                    cmd.CommandText = " INSERT INTO PART_RUNNING_SERIAL (MACHINE_ID, TEST_DAY_DATE, TEST_DAY_LAST_DATE_TIME, PART_NUMBER, TRACEABILITY_CODE, RUNNING_LOT_NUMBER) " +
+                                        " VALUES (@macId, @testDay, @lastDateTime, @partnumber, @traceabilityCode, @lotNumber) ";
+                                    cmd.Parameters.AddWithValue("macId", machineID);
+                                    cmd.Parameters.AddWithValue("testDay", GetDateAlone(testDateTime));
+                                    cmd.Parameters.AddWithValue("lastDateTime", testDateTime);
+                                    cmd.Parameters.AddWithValue("partnumber", txt_PartNumber.Text);
+                                    cmd.Parameters.AddWithValue("traceabilityCode", traceabilityCode);
+                                    cmd.Parameters.AddWithValue("lotNumber", lotNo);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        tx.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        MessageBox.Show("Error saving test data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             display_Data();
         }
